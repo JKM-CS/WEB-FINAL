@@ -1,14 +1,14 @@
-// TODO: Replace the config properties below with your actual Firebase project configuration
+// Your actual Firebase project configuration
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyABGvy_eSXl-u7X23mW2U37AZKoG7pbyrw",
+  authDomain: "webfinal-e8559.firebaseapp.com",
+  projectId: "webfinal-e8559",
+  storageBucket: "webfinal-e8559.firebasestorage.app",
+  messagingSenderId: "898397761587",
+  appId: "1:898397761587:web:93eb482c0ab7297280f346"
 };
 
-// Initialize Firebase
+// Initialize Firebase using the Compat SDK
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -101,15 +101,10 @@ document.getElementById("todayText").innerHTML =
 
 // jQuery initialization logic
 $(document).ready(function () {
-  // Safety guard check for unconfigured Firebase setups
-  if (firebaseConfig.apiKey === "YOUR_FIREBASE_API_KEY") {
-    alert("Set your Firebase configurations in script.js before using the shared planner.");
-    return;
-  }
-
+  
   renderTasks().catch(function (err) {
     console.error(err);
-    alert("Could not load shared tasks from Firebase.");
+    alert("Could not load shared tasks from Firebase. Check your database setup/rules!");
   });
 
   // Add task button click listener
