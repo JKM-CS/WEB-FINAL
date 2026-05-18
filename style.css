@@ -61,6 +61,10 @@ header h1 {
   padding: 8px 15px;
   font-size: 14px;
   border-radius: 20px;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
 }
 .toggle-btn:hover {
   background: #475569;
@@ -97,7 +101,7 @@ select {
   outline: none;
   background: var(--card-bg);
   color: var(--text-main);
-  transition: background 0.3s, border 0.3s;
+  transition: background 0.3s, border 0.3s, color 0.3s;
 }
 
 input:focus,
@@ -137,11 +141,13 @@ button:hover {
   border-radius: 22px;
   box-shadow: 0 10px 25px var(--card-shadow);
   border-top: 8px solid #2563eb;
-  transition: 0.3s;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
+/* NATIVE HOVER RULES - This replaces the broken jQuery logic */
 .day-card:hover {
   transform: translateY(-8px);
+  background-color: var(--day-card-hover);
 }
 
 .day-card h2 {
@@ -159,7 +165,7 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   border-left: 6px solid #2563eb;
-  color: #0f172a; /* Keep task content legible inside blue background */
+  color: #0f172a; 
   transition: 0.3s;
 }
 
@@ -203,7 +209,6 @@ footer {
   margin-top: 40px;
 }
 
-/* Responsiveness tweak for dark mode button on smaller viewports */
 @media(max-width: 600px) {
   .header-top {
     flex-direction: column;
