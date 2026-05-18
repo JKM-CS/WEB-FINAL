@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weekly Planner</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- jQuery from lectures -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <h1>Weekly Planner</h1>
+    <p id="todayText">Plan your week and track your tasks easily.</p>
+  </header>
+
+  <section class="add-task-box">
+    <h2>Add New Task</h2>
+
+    <input type="text" id="taskInput" placeholder="Enter your task">
+
+    <select id="daySelect">
+      <option value="Monday">Monday</option>
+      <option value="Tuesday">Tuesday</option>
+      <option value="Wednesday">Wednesday</option>
+      <option value="Thursday">Thursday</option>
+      <option value="Friday">Friday</option>
+      <option value="Saturday">Saturday</option>
+      <option value="Sunday">Sunday</option>
+    </select>
+
+    <button id="addBtn">Add Task</button>
+  </section>
+
+  <main class="week-container">
+
+    <div class="day-card" id="Monday">
+      <h2>Monday</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="day-card" id="Tuesday">
+      <h2>Tuesday</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="day-card" id="Wednesday">
+      <h2>Wednesday</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="day-card" id="Thursday">
+      <h2>Thursday</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="day-card" id="Friday">
+      <h2>Friday</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="day-card" id="Saturday">
+      <h2>Saturday</h2>
+      <div class="tasks"></div>
+    </div>
+
+    <div class="day-card" id="Sunday">
+      <h2>Sunday</h2>
+      <div class="tasks"></div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>Web Scripting Project | HTML, CSS, JavaScript, jQuery</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

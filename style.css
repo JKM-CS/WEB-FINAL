@@ -1,0 +1,155 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+  color: #0f172a;
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(90deg, #0f172a, #1e3a8a);
+  color: white;
+}
+
+header h1 {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
+header p {
+  font-size: 18px;
+  color: #dbeafe;
+}
+
+.add-task-box {
+  width: 85%;
+  margin: 30px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  text-align: center;
+}
+
+.add-task-box h2 {
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+input,
+select {
+  padding: 13px;
+  margin: 8px;
+  width: 240px;
+  border: 2px solid #cbd5e1;
+  border-radius: 10px;
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+button {
+  padding: 13px 20px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+.week-container {
+  width: 90%;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.day-card {
+  background: white;
+  min-height: 260px;
+  padding: 22px;
+  border-radius: 22px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  border-top: 8px solid #2563eb;
+  transition: 0.3s;
+}
+
+.day-card:hover {
+  transform: translateY(-8px);
+}
+
+.day-card h2 {
+  color: #1e3a8a;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.task {
+  background: #dbeafe;
+  margin: 12px 0;
+  padding: 13px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 6px solid #2563eb;
+  transition: 0.3s;
+}
+
+.task span {
+  font-size: 15px;
+}
+
+.done {
+  background: #dcfce7;
+  border-left: 6px solid #16a34a;
+  color: #166534;
+  text-decoration: line-through;
+}
+
+.done-btn {
+  background: #16a34a;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.delete-btn {
+  background: #dc2626;
+  padding: 8px 12px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.done-btn:hover {
+  background: #15803d;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  background: #0f172a;
+  color: white;
+  margin-top: 40px;
+}
