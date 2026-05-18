@@ -1,4 +1,3 @@
-// Your actual Firebase project configuration
 const firebaseConfig = {
   apiKey: "AIzaSyABGvy_eSXl-u7X23mW2U37AZKoG7pbyrw",
   authDomain: "webfinal-e8559.firebaseapp.com",
@@ -102,7 +101,7 @@ document.getElementById("todayText").innerHTML =
 // jQuery initialization logic
 $(document).ready(function () {
   
-  // --- Dark Mode Initialization & Logic ---
+  // --- Dark Mode Logic ---
   const currentTheme = localStorage.getItem("theme");
   if (currentTheme === "dark") {
     $("body").addClass("dark-mode");
@@ -120,8 +119,8 @@ $(document).ready(function () {
       $(this).text("🌙 Dark Mode");
     }
   });
-  // ----------------------------------------
 
+  // Initial Fetch Call
   renderTasks().catch(function (err) {
     console.error(err);
     alert("Could not load shared tasks from Firebase. Check your database setup/rules!");
@@ -147,7 +146,6 @@ $(document).ready(function () {
     $("#taskInput").val("");
   });
 
-
   // Complete/Done button event delegation
   $(document).on("click", ".done-btn", function () {
     const taskElement = $(this).closest(".task");
@@ -162,7 +160,6 @@ $(document).ready(function () {
       });
   });
 
-
   // Delete button event delegation
   $(document).on("click", ".delete-btn", function () {
     const taskId = $(this).closest(".task").data("id");
@@ -173,16 +170,6 @@ $(document).ready(function () {
         console.error(err);
         window.alert("Could not delete the task from Firebase.");
       });
-  });
-
-
-  // UI Effect: Hover color overrides using CSS variables
-  $(".day-card").mouseenter(function () {
-    $(this).css("background-color", "var(--day-card-hover)");
-  });
-
-  $(".day-card").mouseleave(function () {
-    $(this).css("background-color", "var(--card-bg)");
   });
 
 });
