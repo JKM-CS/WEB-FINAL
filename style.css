@@ -1,3 +1,26 @@
+/* Core resets and theme variables */
+:root {
+  --bg-gradient: linear-gradient(135deg, #e0f2fe, #f8fafc);
+  --text-main: #0f172a;
+  --card-bg: white;
+  --card-shadow: rgba(0,0,0,0.12);
+  --box-bg: white;
+  --input-border: #cbd5e1;
+  --input-focus-bg: #eff6ff;
+  --day-card-hover: #f8fafc;
+}
+
+body.dark-mode {
+  --bg-gradient: linear-gradient(135deg, #0f172a, #1e293b);
+  --text-main: #f1f5f9;
+  --card-bg: #1e293b;
+  --card-shadow: rgba(0,0,0,0.4);
+  --box-bg: #1e293b;
+  --input-border: #475569;
+  --input-focus-bg: #334155;
+  --day-card-hover: #334155;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,20 +29,41 @@
 }
 
 body {
-  background: linear-gradient(135deg, #e0f2fe, #f8fafc);
-  color: #0f172a;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  transition: background 0.3s, color 0.3s;
 }
 
 header {
-  text-align: center;
   padding: 40px 20px;
   background: linear-gradient(90deg, #0f172a, #1e3a8a);
   color: white;
+  text-align: center;
+}
+
+.header-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto 10px auto;
 }
 
 header h1 {
   font-size: 45px;
-  margin-bottom: 10px;
+}
+
+/* Specific styling for the toggle button */
+.toggle-btn {
+  background: #334155;
+  padding: 8px 15px;
+  font-size: 14px;
+  border-radius: 20px;
+}
+.toggle-btn:hover {
+  background: #475569;
 }
 
 header p {
@@ -30,16 +74,17 @@ header p {
 .add-task-box {
   width: 85%;
   margin: 30px auto;
-  background: white;
+  background: var(--box-bg);
   padding: 25px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 30px var(--card-shadow);
   text-align: center;
+  transition: background 0.3s;
 }
 
 .add-task-box h2 {
   margin-bottom: 20px;
-  color: #1e3a8a;
+  color: #2563eb;
 }
 
 input,
@@ -47,15 +92,18 @@ select {
   padding: 13px;
   margin: 8px;
   width: 240px;
-  border: 2px solid #cbd5e1;
+  border: 2px solid var(--input-border);
   border-radius: 10px;
   outline: none;
+  background: var(--card-bg);
+  color: var(--text-main);
+  transition: background 0.3s, border 0.3s;
 }
 
 input:focus,
 select:focus {
   border-color: #2563eb;
-  background: #eff6ff;
+  background: var(--input-focus-bg);
 }
 
 button {
@@ -83,11 +131,11 @@ button:hover {
 }
 
 .day-card {
-  background: white;
+  background: var(--card-bg);
   min-height: 260px;
   padding: 22px;
   border-radius: 22px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 25px var(--card-shadow);
   border-top: 8px solid #2563eb;
   transition: 0.3s;
 }
@@ -97,7 +145,7 @@ button:hover {
 }
 
 .day-card h2 {
-  color: #1e3a8a;
+  color: #2563eb;
   margin-bottom: 18px;
   text-align: center;
 }
@@ -111,6 +159,7 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   border-left: 6px solid #2563eb;
+  color: #0f172a; /* Keep task content legible inside blue background */
   transition: 0.3s;
 }
 
@@ -152,4 +201,11 @@ footer {
   background: #0f172a;
   color: white;
   margin-top: 40px;
+}
+
+/* Responsiveness tweak for dark mode button on smaller viewports */
+@media(max-width: 600px) {
+  .header-top {
+    flex-direction: column;
+  }
 }
