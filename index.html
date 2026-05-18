@@ -1,85 +1,168 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weekly Planner</title>
+// Your actual Firebase project configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyABGvy_eSXl-u7X23mW2U37AZKoG7pbyrw",
+  authDomain: "webfinal-e8559.firebaseapp.com",
+  projectId: "webfinal-e8559",
+  storageBucket: "webfinal-e8559.firebasestorage.app",
+  messagingSenderId: "898397761587",
+  appId: "1:898397761587:web:93eb482c0ab7297280f346"
+};
 
-  <link rel="stylesheet" href="style.css">
+// Initialize Firebase using the Compat SDK
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+// Load tasks from Firestore collection ordered by creation timestamp
+async function loadTasks() {
+  try {
+    const snapshot = await db.collection("tasks").orderBy("createdAt", "asc").get();
+    const tasks = [];
+    snapshot.forEach(doc => {
+      tasks.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
+    return tasks;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Add a new task document to the Firestore collection
+async function addTask(taskText, selectedDay) {
+  try {
+    await db.collection("tasks").add({
+      text: taskText,
+      day: selectedDay,
+      done: false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp() // Sets a reliable server timestamp
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Toggle 'done' status for a task in Firestore
+async function toggleTaskDone(taskId, doneStatus) {
+  try {
+    await db.collection("tasks").doc(taskId).update({
+      done: doneStatus
+    });
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Delete a task document from Firestore
+async function deleteTask(taskId) {
+  try {
+    await db.collection("tasks").doc(taskId).delete();
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Clear UI containers and render tasks into their respective days
+async function renderTasks() {
+  $(".tasks").empty();
+
+  const tasks = await loadTasks();
+
+  tasks.forEach(function (task) {
+    const taskElement = $("<div>", {
+      class: task.done ? "task done" : "task",
+      "data-id": task.id,
+    });
+
+    $("<span>").text(task.text).appendTo(taskElement);
+
+    const buttonGroup = $("<div>");
+
+    $("<button>", {
+      class: "done-btn",
+      text: "Done",
+    }).appendTo(buttonGroup);
+
+    $("<button>", {
+      class: "delete-btn",
+      text: "Delete",
+    }).appendTo(buttonGroup);
+
+    buttonGroup.appendTo(taskElement);
+    $("#" + task.day + " .tasks").append(taskElement);
+  });
+}
+
+// Show current date using Date object
+document.getElementById("todayText").innerHTML =
+  "Today is: " + new Date().toDateString();
+
+
+// jQuery initialization logic
+$(document).ready(function () {
   
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-</head>
-<body>
+  renderTasks().catch(function (err) {
+    console.error(err);
+    alert("Could not load shared tasks from Firebase. Check your database setup/rules!");
+  });
 
-  <header>
-    <h1>Weekly Planner</h1>
-    <p id="todayText">Plan your week and track your tasks easily.</p>
-  </header>
+  // Add task button click listener
+  $("#addBtn").click(function () {
+    let taskText = $("#taskInput").val();
+    let selectedDay = $("#daySelect").val();
 
-  <section class="add-task-box">
-    <h2>Add New Task</h2>
+    if (taskText === "") {
+      window.alert("Please write a task first.");
+      return;
+    }
 
-    <input type="text" id="taskInput" placeholder="Enter your task">
+    addTask(taskText, selectedDay)
+      .then(renderTasks)
+      .catch(function (err) {
+        console.error(err);
+        window.alert("Could not save the task to Firebase.");
+      });
 
-    <select id="daySelect">
-      <option value="Monday">Monday</option>
-      <option value="Tuesday">Tuesday</option>
-      <option value="Wednesday">Wednesday</option>
-      <option value="Thursday">Thursday</option>
-      <option value="Friday">Friday</option>
-      <option value="Saturday">Saturday</option>
-      <option value="Sunday">Sunday</option>
-    </select>
+    $("#taskInput").val("");
+  });
 
-    <button id="addBtn">Add Task</button>
-  </section>
 
-  <main class="week-container">
+  // Complete/Done button event delegation
+  $(document).on("click", ".done-btn", function () {
+    const taskElement = $(this).closest(".task");
+    const taskId = taskElement.data("id");
+    const isDone = taskElement.hasClass("done");
 
-    <div class="day-card" id="Monday">
-      <h2>Monday</h2>
-      <div class="tasks"></div>
-    </div>
+    toggleTaskDone(taskId, !isDone)
+      .then(renderTasks)
+      .catch(function (err) {
+        console.error(err);
+        window.alert("Could not update the task in Firebase.");
+      });
+  });
 
-    <div class="day-card" id="Tuesday">
-      <h2>Tuesday</h2>
-      <div class="tasks"></div>
-    </div>
 
-    <div class="day-card" id="Wednesday">
-      <h2>Wednesday</h2>
-      <div class="tasks"></div>
-    </div>
+  // Delete button event delegation
+  $(document).on("click", ".delete-btn", function () {
+    const taskId = $(this).closest(".task").data("id");
 
-    <div class="day-card" id="Thursday">
-      <h2>Thursday</h2>
-      <div class="tasks"></div>
-    </div>
+    deleteTask(taskId)
+      .then(renderTasks)
+      .catch(function (err) {
+        console.error(err);
+        window.alert("Could not delete the task from Firebase.");
+      });
+  });
 
-    <div class="day-card" id="Friday">
-      <h2>Friday</h2>
-      <div class="tasks"></div>
-    </div>
 
-    <div class="day-card" id="Saturday">
-      <h2>Saturday</h2>
-      <div class="tasks"></div>
-    </div>
+  // UI Effect: Hover color overrides
+  $(".day-card").mouseenter(function () {
+    $(this).css("background-color", "#f8fafc");
+  });
 
-    <div class="day-card" id="Sunday">
-      <h2>Sunday</h2>
-      <div class="tasks"></div>
-    </div>
+  $(".day-card").mouseleave(function () {
+    $(this).css("background-color", "white");
+  });
 
-  </main>
-
-  <footer>
-    <p>Web Scripting Project | HTML, CSS, JavaScript, Firebase</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+});
