@@ -36,7 +36,7 @@ async function addTask(taskText, selectedDay) {
       text: taskText,
       day: selectedDay,
       done: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp() // Sets a reliable server timestamp
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
   } catch (error) {
     throw error;
@@ -102,6 +102,26 @@ document.getElementById("todayText").innerHTML =
 // jQuery initialization logic
 $(document).ready(function () {
   
+  // --- Dark Mode Initialization & Logic ---
+  const currentTheme = localStorage.getItem("theme");
+  if (currentTheme === "dark") {
+    $("body").addClass("dark-mode");
+    $("#darkModeToggle").text("☀️ Light Mode");
+  }
+
+  $("#darkModeToggle").click(function () {
+    $("body").toggleClass("dark-mode");
+    
+    if ($("body").hasClass("dark-mode")) {
+      localStorage.setItem("theme", "dark");
+      $(this).text("☀️ Light Mode");
+    } else {
+      localStorage.setItem("theme", "light");
+      $(this).text("🌙 Dark Mode");
+    }
+  });
+  // ----------------------------------------
+
   renderTasks().catch(function (err) {
     console.error(err);
     alert("Could not load shared tasks from Firebase. Check your database setup/rules!");
@@ -156,13 +176,13 @@ $(document).ready(function () {
   });
 
 
-  // UI Effect: Hover color overrides
+  // UI Effect: Hover color overrides using CSS variables
   $(".day-card").mouseenter(function () {
-    $(this).css("background-color", "#f8fafc");
+    $(this).css("background-color", "var(--day-card-hover)");
   });
 
   $(".day-card").mouseleave(function () {
-    $(this).css("background-color", "white");
+    $(this).css("background-color", "var(--card-bg)");
   });
 
 });
